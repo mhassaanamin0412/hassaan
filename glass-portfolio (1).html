@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alex Morgan — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg-from: #0d0621;
+  --bg-mid: #130e2e;
+  --bg-to: #0a1628;
+  --orb1: #7b3fe4;
+  --orb2: #1a6eb5;
+  --orb3: #c4296e;
+  --orb4: #2eb89a;
+  --gold: #f0c060;
+  --gold-soft: rgba(240,192,96,0.15);
+  --white: #ffffff;
+  --glass-bg: rgba(255,255,255,0.06);
+  --glass-bg-hover: rgba(255,255,255,0.1);
+  --glass-border: rgba(255,255,255,0.12);
+  --glass-border-bright: rgba(255,255,255,0.22);
+  --text: rgba(255,255,255,0.92);
+  --text-soft: rgba(255,255,255,0.55);
+  --text-dim: rgba(255,255,255,0.28);
+  --display: 'Playfair Display', Georgia, serif;
+  --body: 'Nunito', system-ui, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--body);
+  background: var(--bg-from);
+  color: var(--text);
+  font-weight: 300;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ── BACKGROUND ── */
+.bg-canvas {
+  position: fixed; inset: 0; z-index: 0;
+  background: linear-gradient(135deg, var(--bg-from) 0%, var(--bg-mid) 50%, var(--bg-to) 100%);
+  overflow: hidden;
+}
+.orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(80px); opacity: 0.55;
+  animation: drift 18s ease-in-out infinite;
+}
+.orb1 { width: 600px; height: 600px; background: var(--orb1); top: -15%; left: -10%; animation-duration: 20s; }
+.orb2 { width: 500px; height: 500px; background: var(--orb2); top: 20%; right: -15%; animation-duration: 25s; animation-delay: -8s; }
+.orb3 { width: 400px; height: 400px; background: var(--orb3); bottom: 10%; left: 20%; animation-duration: 22s; animation-delay: -4s; }
+.orb4 { width: 350px; height: 350px; background: var(--orb4); bottom: -5%; right: 30%; animation-duration: 28s; animation-delay: -12s; }
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(40px, -30px) scale(1.08); }
+  66% { transform: translate(-25px, 40px) scale(0.95); }
+}
+
+/* Noise texture overlay */
+.bg-noise {
+  position: fixed; inset: 0; z-index: 0; opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  pointer-events: none;
+}
+
+/* Everything above bg */
+.page-wrap { position: relative; z-index: 1; }
+
+/* ── GLASS MIXIN ── */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid var(--glass-border);
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1.25rem 3rem;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(13,6,33,0.5);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+}
+.nav-logo {
+  font-family: var(--display);
+  font-size: 1.2rem; font-weight: 500;
+  color: var(--white); text-decoration: none;
+  letter-spacing: 0.02em;
+}
+.nav-logo span {
+  font-style: italic; color: var(--gold);
+}
+.nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+.nav-links a {
+  font-size: 0.78rem; letter-spacing: 0.08em;
+  color: var(--text-soft); text-decoration: none;
+  transition: color 0.25s;
+}
+.nav-links a:hover { color: var(--white); }
+.nav-btn {
+  font-size: 0.76rem; letter-spacing: 0.06em;
+  color: var(--gold) !important;
+  background: var(--gold-soft) !important;
+  border: 1px solid rgba(240,192,96,0.25) !important;
+  padding: 0.45rem 1.2rem;
+  border-radius: 100px;
+  transition: background 0.25s !important;
+}
+.nav-btn:hover { background: rgba(240,192,96,0.22) !important; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  padding: 10rem 4rem 6rem;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: flex-start;
+  max-width: 1300px; margin: 0 auto;
+  position: relative;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.75rem;
+  background: var(--gold-soft);
+  border: 1px solid rgba(240,192,96,0.2);
+  padding: 0.4rem 1.2rem;
+  border-radius: 100px;
+  font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 2.5rem;
+}
+.eyebrow-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 8px var(--gold);
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 8px var(--gold); }
+  50% { box-shadow: 0 0 18px var(--gold), 0 0 4px var(--gold); }
+}
+.hero-title {
+  font-family: var(--display);
+  font-size: clamp(3.5rem, 8vw, 8rem);
+  font-weight: 400; line-height: 1.02;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+  max-width: 800px;
+}
+.hero-title .italic { font-style: italic; color: var(--gold); }
+.hero-title .outline {
+  -webkit-text-stroke: 1px rgba(255,255,255,0.35);
+  color: transparent;
+}
+.hero-sub {
+  font-size: 1rem; color: var(--text-soft);
+  max-width: 460px; line-height: 1.8;
+  margin-bottom: 3.5rem;
+}
+.hero-ctas { display: flex; gap: 1rem; align-items: center; }
+.cta-gold {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: linear-gradient(135deg, #f0c060, #d4921f);
+  color: #1a0d00;
+  font-size: 0.82rem; font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 0.9rem 2.2rem;
+  border-radius: 100px;
+  text-decoration: none;
+  box-shadow: 0 8px 32px rgba(240,192,96,0.25);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.cta-gold:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(240,192,96,0.35); }
+.cta-glass {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: var(--glass-bg); border: 1px solid var(--glass-border-bright);
+  backdrop-filter: blur(12px);
+  color: var(--text); font-size: 0.82rem; font-weight: 400;
+  letter-spacing: 0.06em; padding: 0.9rem 2.2rem;
+  border-radius: 100px; text-decoration: none;
+  transition: background 0.25s, border-color 0.25s;
+}
+.cta-glass:hover { background: var(--glass-bg-hover); border-color: var(--glass-border-bright); }
+
+/* Floating cards behind hero */
+.hero-float-cards {
+  position: absolute; right: -2rem; top: 50%;
+  transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 1rem;
+  opacity: 0.6;
+}
+.float-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(16px);
+  padding: 1rem 1.5rem;
+  border-radius: 16px;
+  font-size: 0.78rem;
+  animation: float-bob 6s ease-in-out infinite;
+}
+.float-card:nth-child(2) { animation-delay: -2s; margin-left: 2rem; }
+.float-card:nth-child(3) { animation-delay: -4s; margin-left: 0.5rem; }
+@keyframes float-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.float-val { font-family: var(--display); font-size: 1.6rem; font-weight: 500; color: var(--gold); }
+.float-lbl { color: var(--text-dim); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.2rem; }
+
+/* ── WORK ── */
+.work {
+  padding: 8rem 4rem;
+  max-width: 1300px; margin: 0 auto;
+}
+.section-eyebrow {
+  font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 0.75rem;
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.section-eyebrow::before { content: '✦'; font-size: 0.5rem; }
+.section-title {
+  font-family: var(--display);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 400; letter-spacing: -0.02em;
+  line-height: 1.05; margin-bottom: 4rem;
+}
+.section-title em { font-style: italic; color: var(--gold); }
+.projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.p-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px) saturate(1.3);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px; padding: 2.5rem;
+  position: relative; overflow: hidden;
+  cursor: default;
+  transition: background 0.35s, border-color 0.35s, transform 0.35s, box-shadow 0.35s;
+}
+.p-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(240,192,96,0.05) 0%, transparent 50%);
+  opacity: 0; transition: opacity 0.35s;
+  border-radius: inherit;
+}
+.p-card:hover {
+  background: var(--glass-bg-hover);
+  border-color: rgba(240,192,96,0.25);
+  transform: translateY(-4px);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.35), 0 0 0 1px rgba(240,192,96,0.1);
+}
+.p-card:hover::before { opacity: 1; }
+.p-card.wide { grid-column: 1 / -1; }
+.p-num { font-family: var(--display); font-style: italic; font-size: 0.82rem; color: var(--text-dim); margin-bottom: 1.75rem; }
+.p-title {
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 2.5vw, 2.1rem);
+  font-weight: 500; letter-spacing: -0.01em;
+  line-height: 1.1; margin-bottom: 1rem;
+  transition: color 0.3s;
+}
+.p-card:hover .p-title { color: var(--gold); }
+.p-desc { font-size: 0.85rem; color: var(--text-soft); line-height: 1.75; margin-bottom: 2rem; max-width: 500px; }
+.p-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.p-tag {
+  font-size: 0.67rem; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.25rem 0.75rem; border-radius: 100px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--glass-border);
+  color: var(--text-dim);
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
+}
+.p-card:hover .p-tag {
+  background: var(--gold-soft);
+  color: var(--gold);
+  border-color: rgba(240,192,96,0.2);
+}
+.p-arrow {
+  position: absolute; bottom: 2rem; right: 2rem;
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem; color: var(--text-dim);
+  transition: all 0.3s;
+}
+.p-card:hover .p-arrow {
+  background: linear-gradient(135deg, #f0c060, #d4921f);
+  border-color: transparent; color: #1a0d00;
+  transform: rotate(-45deg);
+}
+
+/* ── ABOUT ── */
+.about {
+  padding: 8rem 4rem;
+  max-width: 1300px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1.1fr;
+  gap: 5rem; align-items: center;
+}
+.about-glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  border-radius: 28px; padding: 3rem;
+}
+.about-avatar {
+  aspect-ratio: 1; border-radius: 50%;
+  background: linear-gradient(135deg, rgba(123,63,228,0.4), rgba(196,41,110,0.4));
+  border: 1px solid rgba(255,255,255,0.15);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 2.5rem;
+  width: 120px; height: 120px;
+  font-family: var(--display); font-size: 2.2rem;
+  font-weight: 500; letter-spacing: -0.02em;
+  color: rgba(255,255,255,0.8);
+}
+.about-glass-title {
+  font-family: var(--display);
+  font-size: 1.5rem; font-weight: 500;
+  text-align: center; margin-bottom: 0.5rem;
+}
+.about-glass-role { font-size: 0.78rem; color: var(--gold); text-align: center; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2.5rem; }
+.about-divider { height: 1px; background: var(--glass-border); margin-bottom: 2rem; }
+.about-stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+.a-stat { text-align: center; padding: 0.75rem; border-right: 1px solid var(--glass-border); }
+.a-stat:last-child { border-right: none; }
+.a-stat-num { font-family: var(--display); font-size: 2rem; font-weight: 500; color: var(--gold); }
+.a-stat-lbl { font-size: 0.65rem; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.2rem; }
+.about-heading {
+  font-family: var(--display);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 400; line-height: 1.1;
+  letter-spacing: -0.015em; margin-bottom: 1.75rem;
+}
+.about-heading em { font-style: italic; color: var(--gold); }
+.about-body { font-size: 0.9rem; color: var(--text-soft); line-height: 1.85; margin-bottom: 1.25rem; }
+.skills-wrap { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
+.skill-pill-label { font-size: 0.72rem; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.skill-track { height: 4px; background: rgba(255,255,255,0.06); border-radius: 100px; overflow: hidden; }
+.skill-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, #7b3fe4, #f0c060); }
+
+/* ── SERVICES ── */
+.services { padding: 8rem 4rem; max-width: 1300px; margin: 0 auto; }
+.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 4rem; }
+.svc-glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px; padding: 2.5rem 2rem;
+  transition: background 0.3s, transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+.svc-glass:hover {
+  background: var(--glass-bg-hover);
+  border-color: rgba(240,192,96,0.2);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.svc-icon {
+  width: 48px; height: 48px; border-radius: 14px;
+  background: var(--gold-soft);
+  border: 1px solid rgba(240,192,96,0.2);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1.75rem;
+  font-family: var(--display); font-style: italic;
+  font-size: 1.1rem; color: var(--gold);
+}
+.svc-name {
+  font-family: var(--display);
+  font-size: 1.25rem; font-weight: 500;
+  margin-bottom: 0.9rem; line-height: 1.2;
+  transition: color 0.25s;
+}
+.svc-glass:hover .svc-name { color: var(--gold); }
+.svc-desc { font-size: 0.82rem; color: var(--text-soft); line-height: 1.8; }
+
+/* ── CONTACT ── */
+.contact { padding: 8rem 4rem; max-width: 1300px; margin: 0 auto; }
+.contact-glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(28px) saturate(1.5);
+  border: 1px solid var(--glass-border);
+  border-radius: 32px; padding: 4rem;
+  display: grid; grid-template-columns: 1fr 1.1fr;
+  gap: 4rem; align-items: center;
+}
+.contact-heading {
+  font-family: var(--display);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 400; line-height: 1.05;
+  letter-spacing: -0.02em; margin-bottom: 1.5rem;
+}
+.contact-heading em { font-style: italic; color: var(--gold); }
+.contact-sub { font-size: 0.88rem; color: var(--text-soft); line-height: 1.8; margin-bottom: 2.5rem; }
+.contact-links { display: flex; flex-direction: column; gap: 1rem; }
+.c-link {
+  display: flex; align-items: center; gap: 0.75rem;
+  font-size: 0.85rem; color: var(--text-soft);
+  text-decoration: none; transition: color 0.25s;
+}
+.c-link-icon {
+  width: 34px; height: 34px; border-radius: 10px;
+  background: var(--gold-soft); border: 1px solid rgba(240,192,96,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; color: var(--gold); flex-shrink: 0;
+}
+.c-link:hover { color: var(--white); }
+.cform { display: flex; flex-direction: column; gap: 1rem; }
+.cf-group { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.cf-field { display: flex; flex-direction: column; gap: 0.4rem; }
+.cf-field label { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); }
+.cf-field input, .cf-field textarea {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px; padding: 0.75rem 1rem;
+  font-family: var(--body); font-size: 0.88rem;
+  color: var(--text); outline: none; resize: none;
+  transition: border-color 0.25s, background 0.25s;
+}
+.cf-field input:focus, .cf-field textarea:focus {
+  border-color: rgba(240,192,96,0.4);
+  background: rgba(255,255,255,0.08);
+}
+.cf-field input::placeholder, .cf-field textarea::placeholder { color: var(--text-dim); }
+.cf-submit {
+  background: linear-gradient(135deg, #f0c060, #d4921f);
+  color: #1a0d00; border: none;
+  font-family: var(--body); font-size: 0.82rem; font-weight: 600;
+  letter-spacing: 0.06em; padding: 0.9rem 2rem;
+  border-radius: 100px; cursor: pointer;
+  box-shadow: 0 8px 32px rgba(240,192,96,0.25);
+  transition: transform 0.25s, box-shadow 0.25s;
+  align-self: flex-start;
+}
+.cf-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(240,192,96,0.35); }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--glass-border);
+  padding: 2rem 4rem;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(13,6,33,0.4);
+  backdrop-filter: blur(12px);
+  position: relative; z-index: 1;
+}
+.footer-copy { font-size: 0.75rem; color: var(--text-dim); }
+.footer-socials { display: flex; gap: 1.5rem; list-style: none; }
+.footer-socials a { font-size: 0.72rem; letter-spacing: 0.08em; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+.footer-socials a:hover { color: var(--gold); }
+
+/* ── REVEAL ── */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.75s ease, transform 0.75s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+@media (max-width: 900px) {
+  nav { padding: 1rem 1.5rem; }
+  .hero { padding: 7rem 1.5rem 5rem; }
+  .hero-float-cards { display: none; }
+  .work, .about, .services, .contact { padding: 5rem 1.5rem; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .p-card.wide { grid-column: 1; }
+  .about { grid-template-columns: 1fr; gap: 3rem; }
+  .services-grid { grid-template-columns: 1fr; }
+  .contact-glass { grid-template-columns: 1fr; padding: 2.5rem; gap: 3rem; }
+  footer { flex-direction: column; gap: 1.5rem; padding: 2rem 1.5rem; text-align: center; }
+  .nav-links { display: none; }
+  .cf-group { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-canvas">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div class="orb orb4"></div>
+</div>
+<div class="bg-noise"></div>
+
+<div class="page-wrap">
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Alex <span>Morgan</span></a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact" class="nav-btn">Get in Touch</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">
+    <span class="eyebrow-dot"></span>
+    Open to projects — 2025
+  </div>
+  <h1 class="hero-title">
+    Crafting<br>
+    <span class="italic">beautiful</span><br>
+    <span class="outline">digital</span> work.
+  </h1>
+  <p class="hero-sub">UI/UX designer & developer with 6 years of experience creating products people love to use.</p>
+  <div class="hero-ctas">
+    <a href="#work" class="cta-gold">View My Work ↓</a>
+    <a href="#contact" class="cta-glass">Let's Talk →</a>
+  </div>
+
+  <div class="hero-float-cards">
+    <div class="float-card">
+      <div class="float-val">48+</div>
+      <div class="float-lbl">Projects Done</div>
+    </div>
+    <div class="float-card">
+      <div class="float-val">6yr</div>
+      <div class="float-lbl">Experience</div>
+    </div>
+    <div class="float-card">
+      <div class="float-val">4×</div>
+      <div class="float-lbl">Award Winner</div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="work" id="work">
+  <div class="reveal">
+    <p class="section-eyebrow">Selected Work</p>
+    <h2 class="section-title">Projects that<br><em>inspire.</em></h2>
+  </div>
+  <div class="projects-grid">
+    <div class="p-card wide reveal">
+      <p class="p-num">001 — Featured</p>
+      <h3 class="p-title">Luma Finance Dashboard</h3>
+      <p class="p-desc">A real-time analytics platform for portfolio management. Redesigned the full information architecture, reducing cognitive load and increasing user engagement across all metrics.</p>
+      <div class="p-tags">
+        <span class="p-tag">UI/UX</span>
+        <span class="p-tag">Dashboard</span>
+        <span class="p-tag">Fintech</span>
+        <span class="p-tag">React</span>
+      </div>
+      <div class="p-arrow">↗</div>
+    </div>
+    <div class="p-card reveal">
+      <p class="p-num">002</p>
+      <h3 class="p-title">Bloom Wellness App</h3>
+      <p class="p-desc">iOS & Android redesign centered on calm, habit-building UX patterns.</p>
+      <div class="p-tags"><span class="p-tag">Mobile</span><span class="p-tag">Health</span></div>
+      <div class="p-arrow">↗</div>
+    </div>
+    <div class="p-card reveal">
+      <p class="p-num">003</p>
+      <h3 class="p-title">Verso Editorial CMS</h3>
+      <p class="p-desc">A modern publishing platform built for digital media at scale.</p>
+      <div class="p-tags"><span class="p-tag">Web</span><span class="p-tag">CMS</span></div>
+      <div class="p-arrow">↗</div>
+    </div>
+    <div class="p-card reveal">
+      <p class="p-num">004</p>
+      <h3 class="p-title">Aura Brand Identity</h3>
+      <p class="p-desc">Full visual identity system for a luxury skincare brand launch.</p>
+      <div class="p-tags"><span class="p-tag">Branding</span><span class="p-tag">Identity</span></div>
+      <div class="p-arrow">↗</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-glass reveal">
+    <div class="about-avatar">AM</div>
+    <p class="about-glass-title">Alex Morgan</p>
+    <p class="about-glass-role">Designer & Developer</p>
+    <div class="about-divider"></div>
+    <div class="about-stat-row">
+      <div class="a-stat"><div class="a-stat-num">6+</div><div class="a-stat-lbl">Years</div></div>
+      <div class="a-stat"><div class="a-stat-num">48+</div><div class="a-stat-lbl">Projects</div></div>
+      <div class="a-stat"><div class="a-stat-num">32+</div><div class="a-stat-lbl">Clients</div></div>
+    </div>
+  </div>
+  <div class="about-text reveal">
+    <p class="section-eyebrow">About Me</p>
+    <h2 class="about-heading">A designer who<br>thinks in <em>systems.</em></h2>
+    <p class="about-body">With 6 years across startups, agencies, and global brands, I bring a structured, curious approach to every visual challenge. Great design is invisible — it just works.</p>
+    <p class="about-body">My background bridges design and engineering. The gap doesn't exist in my workflow.</p>
+    <div class="skills-wrap">
+      <div><p class="skill-pill-label">Figma & Design Systems</p><div class="skill-track"><div class="skill-fill" style="width:95%"></div></div></div>
+      <div><p class="skill-pill-label">React / Next.js</p><div class="skill-track"><div class="skill-fill" style="width:85%"></div></div></div>
+      <div><p class="skill-pill-label">Motion & Interaction</p><div class="skill-track"><div class="skill-fill" style="width:78%"></div></div></div>
+      <div><p class="skill-pill-label">Brand & Identity</p><div class="skill-track"><div class="skill-fill" style="width:70%"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="reveal">
+    <p class="section-eyebrow">What I Do</p>
+    <h2 class="section-title">Services I <em>offer.</em></h2>
+  </div>
+  <div class="services-grid">
+    <div class="svc-glass reveal">
+      <div class="svc-icon">I</div>
+      <h3 class="svc-name">UI / UX Design</h3>
+      <p class="svc-desc">From wireframes to pixel-perfect interfaces. Every decision grounded in research and deliberate intention that creates delight.</p>
+    </div>
+    <div class="svc-glass reveal">
+      <div class="svc-icon">II</div>
+      <h3 class="svc-name">Web Development</h3>
+      <p class="svc-desc">Clean, performant front-end code. I bridge design and engineering — no handoff friction, no translation loss between vision and reality.</p>
+    </div>
+    <div class="svc-glass reveal">
+      <div class="svc-icon">III</div>
+      <h3 class="svc-name">Brand Identity</h3>
+      <p class="svc-desc">Visual identities built to scale. From logos to full design language systems that work consistently across every surface.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="reveal">
+    <p class="section-eyebrow">Say Hello</p>
+    <h2 class="section-title">Let's build<br>something <em>great.</em></h2>
+  </div>
+  <div class="contact-glass reveal">
+    <div>
+      <h3 class="contact-heading">Get in <em>touch.</em></h3>
+      <p class="contact-sub">Have a project in mind? I'm always open to new opportunities and interesting conversations.</p>
+      <div class="contact-links">
+        <a href="mailto:hello@alexmorgan.design" class="c-link">
+          <div class="c-link-icon">@</div>
+          hello@alexmorgan.design
+        </a>
+        <a href="#" class="c-link">
+          <div class="c-link-icon">↗</div>
+          New York, USA
+        </a>
+      </div>
+    </div>
+    <div id="cform" class="cform">
+      <div class="cf-group">
+        <div class="cf-field">
+          <label>Name</label>
+          <input id="g-name" type="text" placeholder="Jane Smith">
+        </div>
+        <div class="cf-field">
+          <label>Email</label>
+          <input id="g-email" type="email" placeholder="jane@example.com">
+        </div>
+      </div>
+      <div class="cf-field">
+        <label>Project Type</label>
+        <input id="g-project" type="text" placeholder="UI Design, Development, Branding…">
+      </div>
+      <div class="cf-field">
+        <label>Message</label>
+        <textarea id="g-message" rows="4" placeholder="Tell me about your project…"></textarea>
+      </div>
+      <button class="cf-submit" id="gSendBtn" onclick="gSubmit()">Send Message ✦</button>
+    </div>
+    <!-- Success -->
+    <div id="gSuccess" style="display:none;text-align:center;padding:2.5rem 1rem;">
+      <div style="width:56px;height:56px;border-radius:50%;background:var(--gold-soft);border:1px solid rgba(240,192,96,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:1.4rem;color:var(--gold);">✦</div>
+      <p style="font-family:var(--display);font-size:1.6rem;font-weight:500;margin-bottom:0.5rem;">Message received!</p>
+      <p style="font-size:0.82rem;color:var(--text-soft);margin-bottom:1.5rem;">I'll get back to you soon.</p>
+      <button onclick="gReset()" style="background:var(--gold-soft);border:1px solid rgba(240,192,96,0.25);color:var(--gold);padding:0.55rem 1.5rem;border-radius:100px;font-size:0.78rem;cursor:pointer;">Send Another</button>
+    </div>
+  </div>
+</section>
+
+<!-- INBOX PANEL -->
+<div id="gInbox" style="display:none;position:fixed;inset:0;z-index:999;overflow-y:auto;background:rgba(13,6,33,0.92);backdrop-filter:blur(20px);">
+  <div style="max-width:760px;margin:4rem auto;padding:2rem;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;border-bottom:1px solid var(--glass-border);padding-bottom:1.5rem;">
+      <div>
+        <p style="font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem;">✦ Inbox</p>
+        <h2 style="font-family:var(--display);font-size:2.2rem;font-weight:500;">Messages</h2>
+      </div>
+      <div style="display:flex;gap:0.75rem;">
+        <button onclick="gClear()" style="background:var(--glass-bg);border:1px solid var(--glass-border);color:var(--text-soft);padding:0.5rem 1.1rem;border-radius:100px;font-size:0.75rem;cursor:pointer;backdrop-filter:blur(12px);">Clear All</button>
+        <button onclick="gCloseInbox()" style="background:linear-gradient(135deg,#f0c060,#d4921f);border:none;color:#1a0d00;padding:0.5rem 1.4rem;border-radius:100px;font-size:0.75rem;font-weight:600;cursor:pointer;">Close ✕</button>
+      </div>
+    </div>
+    <div id="gInboxList"></div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="gToast" style="position:fixed;bottom:2rem;right:2rem;z-index:9999;background:var(--glass-bg);backdrop-filter:blur(20px);border:1px solid rgba(240,192,96,0.3);border-radius:16px;padding:1rem 1.5rem;transform:translateY(100px);opacity:0;transition:all 0.35s;pointer-events:none;">
+  <p style="font-size:0.75rem;letter-spacing:0.1em;color:var(--gold);">✦ Message saved to inbox</p>
+</div>
+
+<footer>
+  <p class="footer-copy">© 2025 Alex Morgan — All Rights Reserved</p>
+  <ul class="footer-socials">
+    <li><a href="#">Dribbble</a></li>
+    <li><a href="#">LinkedIn</a></li>
+    <li><a href="#" onclick="gOpenInbox();return false;" style="color:var(--gold) !important;">Inbox (<span id="gMsgCount">0</span>)</a></li>
+    <li><a href="#">Twitter</a></li>
+  </ul>
+</footer>
+
+</div><!-- end page-wrap -->
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = (i * 0.06) + 's';
+    io.observe(el);
+  });
+
+  function gGetMsgs() { try { return JSON.parse(localStorage.getItem('glass_portfolio_msgs') || '[]'); } catch { return []; } }
+  function gSaveMsgs(m) { localStorage.setItem('glass_portfolio_msgs', JSON.stringify(m)); gUpdateCount(); }
+  function gUpdateCount() { const el = document.getElementById('gMsgCount'); if (el) el.textContent = gGetMsgs().length; }
+
+  function gSubmit() {
+    const name = document.getElementById('g-name').value.trim();
+    const email = document.getElementById('g-email').value.trim();
+    const project = document.getElementById('g-project').value.trim();
+    const message = document.getElementById('g-message').value.trim();
+    if (!name || !email || !message) {
+      const btn = document.getElementById('gSendBtn');
+      btn.textContent = 'Please fill required fields';
+      btn.style.background = 'rgba(255,60,92,0.3)'; btn.style.color = '#fff';
+      setTimeout(() => { btn.textContent = 'Send Message ✦'; btn.style.background = ''; btn.style.color = ''; }, 2200);
+      return;
+    }
+    const msgs = gGetMsgs();
+    msgs.unshift({ id: Date.now(), name, email, project, message, date: new Date().toLocaleString() });
+    gSaveMsgs(msgs);
+    document.getElementById('cform').style.display = 'none';
+    document.getElementById('gSuccess').style.display = 'block';
+    gShowToast();
+  }
+
+  function gReset() {
+    ['g-name','g-email','g-project','g-message'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    document.getElementById('cform').style.display = 'flex';
+    document.getElementById('gSuccess').style.display = 'none';
+  }
+
+  function gShowToast() {
+    const t = document.getElementById('gToast');
+    t.style.transform = 'translateY(0)'; t.style.opacity = '1';
+    setTimeout(() => { t.style.transform = 'translateY(100px)'; t.style.opacity = '0'; }, 3200);
+  }
+
+  function gOpenInbox() {
+    const msgs = gGetMsgs();
+    const list = document.getElementById('gInboxList');
+    if (!msgs.length) {
+      list.innerHTML = '<div style="text-align:center;padding:5rem 0;"><p style="font-family:var(--display);font-style:italic;font-size:1.2rem;color:var(--text-dim);">No messages yet…</p></div>';
+    } else {
+      list.innerHTML = msgs.map(m => `
+        <div style="background:var(--glass-bg);backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:20px;padding:1.75rem;margin-bottom:1rem;position:relative;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;">
+            <div>
+              <p style="font-family:var(--display);font-size:1.15rem;font-weight:500;">${escH(m.name)}</p>
+              <p style="font-size:0.72rem;color:var(--gold);letter-spacing:0.08em;margin-top:0.2rem;">${escH(m.email)}</p>
+              ${m.project ? `<p style="font-size:0.7rem;color:var(--text-dim);margin-top:0.2rem;">${escH(m.project)}</p>` : ''}
+            </div>
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+              <p style="font-size:0.65rem;color:var(--text-dim);">${escH(m.date)}</p>
+              <button onclick="gDeleteMsg(${m.id})" style="background:rgba(255,255,255,0.06);border:1px solid var(--glass-border);color:var(--text-dim);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:0.75rem;display:flex;align-items:center;justify-content:center;" title="Delete">✕</button>
+            </div>
+          </div>
+          <p style="font-size:0.85rem;color:var(--text-soft);line-height:1.8;border-top:1px solid var(--glass-border);padding-top:1rem;">${escH(m.message)}</p>
+        </div>`).join('');
+    }
+    document.getElementById('gInbox').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function gCloseInbox() { document.getElementById('gInbox').style.display = 'none'; document.body.style.overflow = ''; }
+  function gDeleteMsg(id) { gSaveMsgs(gGetMsgs().filter(m => m.id !== id)); gOpenInbox(); }
+  function gClear() { if (confirm('Delete all messages?')) { gSaveMsgs([]); gOpenInbox(); } }
+  function escH(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  gUpdateCount();
+</script>
+</body>
+</html>
